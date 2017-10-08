@@ -10,21 +10,50 @@
 
 
 /*Global Variables Section*/
+var removeSuccessAlert = "<div class='row'><div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button>Successfully Removed</div></div>";
+var product_template="";
+var responseObj;
+var data_object;
 
 //Declare your Global Variables inside this block
 
 /*End of Global Variables*/
 
 // A $(document).ready() block.
-$(document).ready(function() {
-    
-    //Write any code you want executed in a $(document).ready() block here
+$(document).ready(function () {
 
+    //Write any code you want executed in a $(document).ready() block here
 });
 
 //Get List of Products from the database
 function getProducts() {
-    
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            //JSON.parse is used to convert response String into JSON object
+            responseObj = JSON.parse(this.response);
+            //User cannot print JSON Object directly, so require JQuery to iterate
+            // and show it in HTML
+            
+            $.each(responseObj, function (i, item) {
+                if (i == "data") {
+                    data_object = item;
+                    $.each(item, function (key, value) {
+                        //Right Code to update in the Product Template
+                        product_template += "<div id="+value.category+"-"+value._id+" style='border: 1px solid teal'>"+"Name: " + value.name + " Id: " + value._id + " Price: " + value.price + " Category: " + value.category + "Description: " + value.description  + " Image: " + value.productImg.filePath.substr(9) + "<button id='remove-product' class='btn btn-danger'  data-toggle='modal' data-target='#myModal'>Remove</button><button id='edit-product' class='btn btn-success' onclick=editProduct('"+value._id+"')>Edit</button></div> <div class='modal fade' id='myModal' role='dialog'><div class='modal-dialog modal-md'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button><h4 class='modal-title'>Confirm Delete</h4></div><div class='modal-body'><p>Are you sure you want to remove this product?</p></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button><button type='button' class='btn btn-danger' onclick=removeProduct('"+ value._id +"')>Remove</button></div></div></div></div>";
+                    });
+                }
+            });
+        } else if (this.status == 404) {
+            document.getElementById("product-list").innerHTML = "<h4>No Products Available</h4>"
+        }
+        console.log(product_template);
+        document.getElementById("product-list").innerHTML = product_template;
+    };
+    xhttp.open("GET", "products", true);
+    xhttp.send();
+
+
     /***
     Write your code for fetching the list of product from the database
     
@@ -131,14 +160,25 @@ getProducts();
 
 /*Remove Product*/
 function removeProduct(id) {
-
-//write your code here to remove the product and call when remove button clicked
+    console.log(id);
+    $.ajax({
+        url: "http://localhost:3000/"+id,
+        type: 'DELETE',
+        success: function(data, status, jqXmlHttpRequest){
+            console.log("Data: ",data);
+            console.log("Status: ",status);
+        }
+    });
+    //write your code here to remove the product and call when remove button clicked
 
 }
 
 /*Update Product*/
 function editProduct(id) {
-
+    console.log(id);
+    $(data_object).each(function(key,value){
+        
+    });
     //write your code here to update the product and call when update button clicked
 
 }
@@ -176,8 +216,18 @@ function createProduct(id) {
 
 
 //Code block for Free Text Search
-$(document).ready(function() {
-    $("#searchText").keyup(function() {
+$(document).ready(function () {
+    $("#searchText").keyup(function () {
+        var searchText = $(this).val();
+
+        $("#product-list div").each(function(key, productListDiv){
+            if($(productListDiv).text().search(searchText)<0){
+                $(productListDiv).hide();
+            } else{
+                $(productListDiv).show();
+            }
+        });
+
         /*
             //Write your code here for the Free Text Search
             When the user types text in the search input box. 
@@ -192,7 +242,7 @@ $(document).ready(function() {
             anywhere in the content
 
          */
-        
+
     });
 
 });
