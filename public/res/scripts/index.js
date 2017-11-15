@@ -11,7 +11,7 @@
 
 /*Global Variables Section*/
 var removeSuccessAlert = "<div class='row'><div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button>Successfully Removed</div></div>";
-var product_template="";
+var product_template="<table>";
 var responseObj;
 var data_object;
 
@@ -40,8 +40,17 @@ function getProducts() {
                     data_object = item;
                     $.each(item, function (key, value) {
                         //Right Code to update in the Product Template
-                        product_template += "<div id="+value.category+"-"+value._id+" style='border: 1px solid teal'>"+"Name: " + value.name + " Id: " + value._id + " Price: " + value.price + " Category: " + value.category + "Description: " + value.description  + " Image: " + value.productImg.filePath.substr(9) + "<button id='remove-product' class='btn btn-danger'  data-toggle='modal' data-target='#myModal'>Remove</button><button id='edit-product' class='btn btn-success' onclick=editProduct('"+value._id+"')>Edit</button></div> <div class='modal fade' id='myModal' role='dialog'><div class='modal-dialog modal-md'><div class='modal-content'><div class='modal-header'><button type='button' class='close' data-dismiss='modal'>&times;</button><h4 class='modal-title'>Confirm Delete</h4></div><div class='modal-body'><p>Are you sure you want to remove this product?</p></div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>Close</button><button type='button' class='btn btn-danger' onclick=removeProduct('"+ value._id +"')>Remove</button></div></div></div></div>";
+                        product_template += "<tr><td> Image: " + value.productImg.filePath.substr(9)
+                        +"</td><td><div id="+value.category+"-"+value._id
+                        +" style='border: 1px solid teal'>"
+                        +"Name: " + value.name 
+                        + " Id: " + value._id 
+                        + " Price: " + value.price 
+                        + " Category: " + value.category 
+                        + " Description: " + value.description 
+                        + "<button id='remove-product' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>Remove</button><button id='edit-product' class='btn btn-success' onclick=editProduct('"+value._id+"')>Edit</button></div></td></tr>";
                     });
+                    product_template+="</table>"
                 }
             });
         } else if (this.status == 404) {
@@ -162,10 +171,9 @@ getProducts();
 function removeProduct(id) {
     console.log(id);
     $.ajax({
-        url: "http://localhost:3000/"+id,
+        url: "http://localhost:3000/product/"+id,
         type: 'DELETE',
         success: function(data, status, jqXmlHttpRequest){
-            console.log("Data: ",data);
             console.log("Status: ",status);
         }
     });
@@ -183,7 +191,27 @@ function editProduct(id) {
 
 }
 
-function createProduct(id) {
+var newData;
+$( "#save-form" ).click(function() {
+    var newData =  {
+        name: document.getElementById("add-name").value,
+        category: document.getElementById("add-category").value,
+        description: document.getElementById("add-description").value,
+        price: document.getElementById("add-price").value
+        };
+   createProduct(newData);
+  });
+
+function createProduct(newData) {
+    console.log(newData);
+    $.ajax({
+        url: "http://localhost:3000/product",
+        type: 'POST',
+        data: newData,
+        success: function(data, status, jqXmlHttpRequest){
+            console.log("Status: ",status);
+        }
+    });
 
     //write your code here to create  the product and call when add button clicked
 
