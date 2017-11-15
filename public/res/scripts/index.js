@@ -48,7 +48,7 @@ function getProducts() {
                         + " Price: " + value.price 
                         + " Category: " + value.category 
                         + " Description: " + value.description 
-                        + "<button id='remove-product' class='btn btn-danger' data-toggle='modal' data-target='#myModal'>Remove</button><button id='edit-product' class='btn btn-success' onclick=editProduct('"+value._id+"')>Edit</button></div></td></tr>";
+                        + " <button id='remove-product-"+value._id+ "' class='btn btn-danger' onclick=removeProduct('"+value._id+"')>Remove</button><button id='edit-product' class='btn btn-success' onclick=editProduct('"+value._id+"')>Edit</button></div></td></tr>";
                     });
                     product_template+="</table>"
                 }
@@ -169,14 +169,14 @@ getProducts();
 
 /*Remove Product*/
 function removeProduct(id) {
-    console.log(id);
-    $.ajax({
+    console.log("Remove"+id);
+   /*  $.ajax({
         url: "http://localhost:3000/product/"+id,
         type: 'DELETE',
         success: function(data, status, jqXmlHttpRequest){
             console.log("Status: ",status);
         }
-    });
+    }); */
     //write your code here to remove the product and call when remove button clicked
 
 }
@@ -192,17 +192,15 @@ function editProduct(id) {
 }
 
 var newData;
-$( "#save-form" ).click(function() {
+
+function createProduct() {
     var newData =  {
         name: document.getElementById("add-name").value,
         category: document.getElementById("add-category").value,
         description: document.getElementById("add-description").value,
         price: document.getElementById("add-price").value
         };
-   createProduct(newData);
-  });
 
-function createProduct(newData) {
     console.log(newData);
     $.ajax({
         url: "http://localhost:3000/product",
