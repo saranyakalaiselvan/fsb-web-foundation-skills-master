@@ -11,7 +11,7 @@
 
 /*Global Variables Section*/
 var removeSuccessAlert = "<div class='row'><div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button>Successfully Removed</div></div>";
-var product_template="<table>";
+var product_template = "<table>";
 var responseObj;
 var data_object;
 
@@ -21,8 +21,35 @@ var data_object;
 
 // A $(document).ready() block.
 $(document).ready(function () {
-
     //Write any code you want executed in a $(document).ready() block here
+
+    /* Function when remove button is clicked */
+    $("button[id^='remove-product-']").on("click", function () {
+        var removeId = this.id.substr(15);
+        $('#myModal').modal('show');
+        $("#confirm-delete").on("click", function () {
+            $('#myModal').modal('hide');
+            removeProduct(removeId);
+        });
+    });
+
+    /* Function when edit button is clicked */
+    $("button[id^='edit-product-']").click(function () {
+        var editId = this.id.substr(15);
+        $("#save-form").replaceWith("<button id='update-form' name='success' class='btn btn-success'>Update</button>");
+
+        $("#update-form").on("click", function () {
+            console.log("I am inside update form")
+            editProduct(editId);
+        });
+    });
+
+    /* Function when add product button is clicked */
+    $("#save-form").on("click", function () {
+        console.log("I am inside save form")
+        createProduct(getInputData());
+    });
+
 });
 
 //Get List of Products from the database
@@ -34,29 +61,28 @@ function getProducts() {
             responseObj = JSON.parse(this.response);
             //User cannot print JSON Object directly, so require JQuery to iterate
             // and show it in HTML
-            
+
             $.each(responseObj, function (i, item) {
                 if (i == "data") {
                     data_object = item;
                     $.each(item, function (key, value) {
                         //Right Code to update in the Product Template
                         product_template += "<tr><td> Image: " + value.productImg.filePath.substr(9)
-                        +"</td><td><div id="+value.category+"-"+value._id
-                        +" style='border: 1px solid teal'>"
-                        +"Name: " + value.name 
-                        + " Id: " + value._id 
-                        + " Price: " + value.price 
-                        + " Category: " + value.category 
-                        + " Description: " + value.description 
-                        + " <button id='remove-product-"+value._id+ "' class='btn btn-danger' onclick=removeProduct('"+value._id+"')>Remove</button><button id='edit-product' class='btn btn-success' onclick=editProduct('"+value._id+"')>Edit</button></div></td></tr>";
+                            + "</td><td><div id=" + value.category + "-" + value._id
+                            + " style='border: 1px solid teal'>"
+                            + "Name: " + value.name
+                            + " Id: " + value._id
+                            + " Price: " + value.price
+                            + " Category: " + value.category
+                            + " Description: " + value.description
+                            + " <button id='remove-product-" + value._id + "' class='btn btn-danger'>Remove</button><button id='edit-product-" + value._id + "' class='btn btn-success'>Edit</button></div></td></tr>";
                     });
-                    product_template+="</table>"
+                    product_template += "</table>"
                 }
             });
         } else if (this.status == 404) {
             document.getElementById("product-list").innerHTML = "<h4>No Products Available</h4>"
         }
-        console.log(product_template);
         document.getElementById("product-list").innerHTML = product_template;
     };
     xhttp.open("GET", "products", true);
@@ -166,48 +192,54 @@ getProducts();
  Set the mode to Add
 
  */
-
-/*Remove Product*/
-function removeProduct(id) {
-    console.log("Remove"+id);
-   /*  $.ajax({
-        url: "http://localhost:3000/product/"+id,
-        type: 'DELETE',
-        success: function(data, status, jqXmlHttpRequest){
-            console.log("Status: ",status);
-        }
-    }); */
-    //write your code here to remove the product and call when remove button clicked
-
-}
-
-/*Update Product*/
-function editProduct(id) {
-    console.log(id);
-    $(data_object).each(function(key,value){
-        
-    });
-    //write your code here to update the product and call when update button clicked
-
-}
-
-var newData;
-
-function createProduct() {
-    var newData =  {
+function getInputData() {
+    return {
         name: document.getElementById("add-name").value,
         category: document.getElementById("add-category").value,
         description: document.getElementById("add-description").value,
         price: document.getElementById("add-price").value
-        };
+    };
+}
+
+
+
+/*Remove Product*/
+function removeProduct(id) {
+    console.log("Remove" + id);
+    $.ajax({
+        url: "http://localhost:3000/product/" + id,
+        type: 'DELETE',
+        success: function (data, status, jqXmlHttpRequest) {
+            console.log("Status: ", status);
+        }        
+    }).done(function () {
+        $("#alert-banner").html("<div class='alert alert-success alert-dismissable fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>Hi this is removed :)</div>");
+        //getProducts();
+        console.log("Emptying div");
+        $("#product-list").empty();
+    });
+    getProducts();
+    //write your code here to remove the product and call when remove button clicked
+}
+
+/*Update Product*/
+function editProduct(id) {
+    console.log("Input Data" + getInputData());
+    console.log(id);
+
+    //write your code here to update the product and call when update button clicked
+
+}
+
+function createProduct(newData) {
 
     console.log(newData);
     $.ajax({
         url: "http://localhost:3000/product",
         type: 'POST',
         data: newData,
-        success: function(data, status, jqXmlHttpRequest){
-            console.log("Status: ",status);
+        success: function (data, status, jqXmlHttpRequest) {
+            console.log("Status: ", status);
         }
     });
 
@@ -246,10 +278,10 @@ $(document).ready(function () {
     $("#searchText").keyup(function () {
         var searchText = $(this).val();
 
-        $("#product-list div").each(function(key, productListDiv){
-            if($(productListDiv).text().search(searchText)<0){
+        $("#product-list div").each(function (key, productListDiv) {
+            if ($(productListDiv).text().search(searchText) < 0) {
                 $(productListDiv).hide();
-            } else{
+            } else {
                 $(productListDiv).show();
             }
         });

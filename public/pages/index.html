@@ -23,6 +23,25 @@
 <!--Body-->
 
 <body class="nav-md">
+    <!-- Modal to display confirmation dialog box -->
+        <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">Confirm Delete</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to remove this product?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" id="confirm-delete" class="btn btn-danger">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
@@ -129,7 +148,7 @@
                                         Price: <input type="number" id="add-price" />
                                         Description: <input type="text" id="add-description"/>
                                         <button id="cancel-form" name="cancel" class="btn btn-danger">Cancel</button>
-                                        <button id="save-form" name="success" class="btn btn-success" onclick="createProduct()">Submit</button>                                   
+                                        <button id="save-form" name="success" class="btn btn-success">Submit</button>                                   
                                     </div>
                                 <!--
                                  Write your html code here to display the products
