@@ -11,7 +11,7 @@
 
 /*Global Variables Section*/
 var removeSuccessAlert = "<div class='row'><div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button>Successfully Removed</div></div>";
-var product_template = "<table>";
+var product_template = "";
 var responseObj;
 var data_object;
 
@@ -61,6 +61,7 @@ function getProducts() {
             responseObj = JSON.parse(this.response);
             //User cannot print JSON Object directly, so require JQuery to iterate
             // and show it in HTML
+            product_template="<table>";
 
             $.each(responseObj, function (i, item) {
                 if (i == "data") {
@@ -118,6 +119,7 @@ function getProducts() {
     Iterate through this response array and dynamically create the products list
     using JavaScript DOM and innerHTML.
     ***/
+    product_template="";
 }
 
 //Initial call to populate the Products list the first time the page loads
@@ -213,12 +215,12 @@ function removeProduct(id) {
             console.log("Status: ", status);
         }        
     }).done(function () {
-        $("#alert-banner").html("<div class='alert alert-success alert-dismissable fade in'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>Hi this is removed :)</div>");
+        $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
         //getProducts();
         console.log("Emptying div");
         $("#product-list").empty();
+        getProducts();
     });
-    getProducts();
     //write your code here to remove the product and call when remove button clicked
 }
 

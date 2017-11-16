@@ -24,23 +24,23 @@
 
 <body class="nav-md">
     <!-- Modal to display confirmation dialog box -->
-        <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">×</button>
-                            <h4 class="modal-title">Confirm Delete</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to remove this product?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" id="confirm-delete" class="btn btn-danger">Remove</button>
-                        </div>
-                    </div>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">Confirm Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to remove this product?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="confirm-delete" class="btn btn-danger">Remove</button>
                 </div>
             </div>
+        </div>
+    </div>
 
     <div class="container body">
         <div class="main_container">
@@ -49,8 +49,8 @@
                     <!-- navBar Start-->
                     <div class="navbar nav_title" style="border: 0;">
                         <a href="/playGround" class="site_title">
-                        <img src="../images/cart.png" style="height: 50px; width: 55px"> Online Star
-                    </a>
+                            <img src="../images/cart.png" style="height: 50px; width: 55px"> Online Star
+                        </a>
                     </div>
                     <div class="clearfix"></div>
                     <br />
@@ -61,20 +61,40 @@
                         <div class="menu_section">
                             <!--<h3>General</h3>-->
                             <ul class="nav side-menu">
-                                <li><a href=""><i class="fa fa-cubes"></i> Manage Products<span class="fa fa-chevron-down"></span></a>
+                                <li>
+                                    <a href="">
+                                        <i class="fa fa-cubes"></i> Manage Products
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
                                 </li>
-                                <li><a><i class="fa fa-users"></i> Manage Users <span class="fa fa-chevron-down"></span></a>
+                                <li>
+                                    <a>
+                                        <i class="fa fa-users"></i> Manage Users
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
 
                                 </li>
-                                <li><a><i class="fa fa-credit-card"></i> Manage Payments <span class="fa fa-chevron-down"></span></a>
+                                <li>
+                                    <a>
+                                        <i class="fa fa-credit-card"></i> Manage Payments
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
 
                                 </li>
-                                <li><a><i class="fa fa-cogs"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                                <li>
+                                    <a>
+                                        <i class="fa fa-cogs"></i> Settings
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
                                     <ul class="nav child_menu">
 
                                     </ul>
                                 </li>
-                                <li><a><i class="fa fa-shopping-cart"></i> Manage Orders <span class="fa fa-chevron-down"></span></a>
+                                <li>
+                                    <a>
+                                        <i class="fa fa-shopping-cart"></i> Manage Orders
+                                        <span class="fa fa-chevron-down"></span>
+                                    </a>
                                     <ul class="nav child_menu">
 
                                     </ul>
@@ -92,7 +112,9 @@
                 <div class="nav_menu">
                     <nav>
                         <div class="nav toggle">
-                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                            <a id="menu_toggle">
+                                <i class="fa fa-bars"></i>
+                            </a>
                         </div>
                     </nav>
                 </div>
@@ -106,7 +128,9 @@
                 <div class="input-group">
                     <input type="text" id="searchText" class="form-control" placeholder="Search for..." ondragover="allowDrop(event)" ondrop="drop(event)">
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                        <button class="btn btn-default" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </span>
                 </div>
                 <!-- Search box end-->
@@ -129,27 +153,31 @@
                         <div class="dashboard_graph">
                             <div class="row x_title">
                                 <div class="col-md-6">
-                                    <h3>Product List<small></small></h3>
+                                    <h3>Product List
+                                        <small></small>
+                                    </h3>
                                 </div>
                             </div>
-                            
-                            <div class="row" id="alert-banner"></div>
+
+                            <div class="row" id="alert-banner">
+                            </div>
                             <div class="row" id="test" style="border: 1px solid red">
-                               
+
                                 <!-- This is the panel for list of products -->
                                 <div class="col col-lg-9" style="border: 1px solid blue" id="product-list">
                                 </div>
 
                                 <!-- This is the column for Edit and delete Panel #DO NOT TOUCH -->
                                 <div class="col col-lg-3" style="border: 1px solid green">
-                                        <div class="row">Add Product</div>
-                                        Name: <input type="text" id="add-name"/>
-                                        Category: <input type="text" id="add-category"/>
-                                        Price: <input type="number" id="add-price" />
-                                        Description: <input type="text" id="add-description"/>
-                                        <button id="cancel-form" name="cancel" class="btn btn-danger">Cancel</button>
-                                        <button id="save-form" name="success" class="btn btn-success">Submit</button>                                   
-                                    </div>
+                                    <div class="row">Add Product</div>
+                                    Name:
+                                    <input type="text" id="add-name" /> Category:
+                                    <input type="text" id="add-category" /> Price:
+                                    <input type="number" id="add-price" /> Description:
+                                    <input type="text" id="add-description" />
+                                    <button id="cancel-form" name="cancel" class="btn btn-danger">Cancel</button>
+                                    <button id="save-form" name="success" class="btn btn-success">Submit</button>
+                                </div>
                                 <!--
                                  Write your html code here to display the products
                                  Create only the containers and fill them using jquery
