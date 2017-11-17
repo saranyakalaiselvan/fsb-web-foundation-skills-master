@@ -85,7 +85,7 @@ function getProducts() {
                         //Right Code to update in the Product Template
                         product_template += ""
                             //+ "<td class='col-lg-3'"
-                            + "<div class='row'><div class='col-lg-3 col-md-3'><div id='image-div'><img src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
+                            + "<div class='row panel panel-default'><div class='col-lg-3 col-md-3'><div id='image-div'><img src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
                             + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-motorola'>"
                             + "<span class='fa fa-upload'> Upload</button></div></div>"
                             //+ "</td>"
@@ -95,7 +95,7 @@ function getProducts() {
                             + "<p>" + value.description + "</p>"
                             + "<p><span class='label label-default'><i>" + value.category + "</i></span></p>"
                             + "<b style='color: brown'>Rs. <i>" + value.price + "</i></b></div>"
-                            + "<div class='col-lg-12'><div class='panel-footer'>"
+                            + "<div class='col-lg-12 panel-footer'><div>"
                             + "<button id='remove-product-" + value._id + "' class='btn btn-danger'>"
                             + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
                             + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
