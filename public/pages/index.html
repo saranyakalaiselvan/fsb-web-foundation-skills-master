@@ -169,14 +169,40 @@
 
                                 <!-- This is the column for Edit and delete Panel #DO NOT TOUCH -->
                                 <div class="col col-lg-3" style="border: 1px solid green">
-                                    <div class="row">Add Product</div>
-                                    Name:
-                                    <input type="text" id="add-name" /> Category:
-                                    <input type="text" id="add-category" /> Price:
-                                    <input type="number" id="add-price" /> Description:
-                                    <input type="text" id="add-description" />
-                                    <button id="cancel-form" name="cancel" class="btn btn-danger">Cancel</button>
-                                    <button id="save-form" name="success" class="btn btn-success">Submit</button>
+                                    <div class="row" id="alert-banner-form"></div>
+                                    <div class="panel panel-group">
+                                        <div class="row panel panel-heading">
+                                            <h4 id="heading-form">Add Product</h4>
+                                        </div>
+                                        <div class="panel panel-body">
+                                            <form id="product-form">
+                                                <div class="form-group">
+                                                    <strong>Name *</strong>
+                                                    <br>
+                                                    <input class="form-control input-sm" type="text" id="add-name" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong>Category *</strong>
+                                                    <br>
+                                                    <input class="form-control input-sm" type="text" id="add-category" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong>Price *</strong>
+                                                    <br>
+                                                    <input class="form-control input-sm" type="number" id="add-price" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong>Description *</strong>
+                                                    <br>
+                                                    <textarea class="form-control input-sm" type="text" id="add-description" required></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel panel-header" align="center">
+                                            <button id="clear-form" name="cancel" class="btn btn-danger">Cancel</button>
+                                            <button id="save-form" name="success" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!--
                                  Write your html code here to display the products

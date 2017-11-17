@@ -22,7 +22,7 @@ var data_object;
 // A $(document).ready() block.
 $(document).ready(function () {
     //Write any code you want executed in a $(document).ready() block here
-
+    var editId;
     /* Function when remove button is clicked */
     $("button[id^='remove-product-']").on("click", function () {
         var removeId = this.id.substr(15);
@@ -35,19 +35,34 @@ $(document).ready(function () {
 
     /* Function when edit button is clicked */
     $("button[id^='edit-product-']").click(function () {
-        var editId = this.id.substr(15);
+        editId = this.id.substr(13);
+        $("#heading-form").html("Edit Product");
         $("#save-form").replaceWith("<button id='update-form' name='success' class='btn btn-success'>Update</button>");
-
-        $("#update-form").on("click", function () {
-            console.log("I am inside update form")
-            editProduct(editId);
+        $.each(data_object,function(key,element){
+            if(element._id == editId){
+                document.getElementById("add-name").value=element.name;
+                document.getElementById("add-price").value=element.price;
+                document.getElementById("add-category").value=element.category;
+                document.getElementById("add-description").value=element.description;
+            }
         });
+    });
+
+    $("#update-form").on("click", function () {
+        editProduct(editId);
     });
 
     /* Function when add product button is clicked */
     $("#save-form").on("click", function () {
+        $("#product-form").validate();
         console.log("I am inside save form")
         createProduct(getInputData());
+    });
+
+    $("#clear-form").on("click",function(){
+        document.getElementById("product-form").reset();
+        $("#heading-form").html("Add Product");
+        $("#update-form").replaceWith("<button id='save-form' name='success' class='btn btn-success'>Submit</button>");
     });
 
 });
@@ -68,15 +83,25 @@ function getProducts() {
                     data_object = item;
                     $.each(item, function (key, value) {
                         //Right Code to update in the Product Template
-                        product_template += "<tr><td> Image: " + value.productImg.filePath.substr(9)
-                            + "</td><td><div id=" + value.category + "-" + value._id
-                            + " style='border: 1px solid teal'>"
-                            + "Name: " + value.name
-                            + " Id: " + value._id
-                            + " Price: " + value.price
-                            + " Category: " + value.category
-                            + " Description: " + value.description
-                            + " <button id='remove-product-" + value._id + "' class='btn btn-danger'>Remove</button><button id='edit-product-" + value._id + "' class='btn btn-success'>Edit</button></div></td></tr>";
+                        product_template += "<tr>"
+                            + "<td class='col-lg-3'"
+                            + "<div><img src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
+                            + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-motorola'>"
+                            + "<span class='fa fa-upload'> Upload</button></div>"
+                            + "</td>"
+                            + "<td class='col-lg-9'>"
+                            + "<div id=" + value.category + "-" + value._id + "class='col-lg-9'>"
+                            + "<h4>" + value.name + "</h4>"
+                            + "<p>" + value.description + "</p>"
+                            + "<p><span class='label label-default'><i>" + value.category + "</i></span></p>"
+                            + "<b style='color: brown'>Rs. <i>" + value.price + "</i></b></div>"
+                            + "<div class='col-lg-12'><div class='panel-footer'>"
+                            + "<button id='remove-product-" + value._id + "' class='btn btn-danger'>"
+                            + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
+                            + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
+                            + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div>"
+                            + "</td>"
+                            + "</tr>";
                     });
                     product_template += "</table>"
                 }
@@ -203,6 +228,10 @@ function getInputData() {
     };
 }
 
+function reloadProducts() {
+    $("#product-list").empty();
+    getProducts();
+}
 
 
 /*Remove Product*/
@@ -216,19 +245,25 @@ function removeProduct(id) {
         }        
     }).done(function () {
         $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
-        //getProducts();
-        console.log("Emptying div");
-        $("#product-list").empty();
-        getProducts();
+        reloadProducts();
     });
     //write your code here to remove the product and call when remove button clicked
 }
 
 /*Update Product*/
 function editProduct(id) {
-    console.log("Input Data" + getInputData());
-    console.log(id);
-
+    $.ajax({
+        url: "http://localhost:3000/product/" + id,
+        type: 'PUT',
+        dataType: 'json', 
+        data: getInputData(),
+        success: function (data, status, jqXmlHttpRequest) {
+            console.log("Status: ", status);
+        }
+    }).done(function () {
+        $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Updated Successfully</div>');
+        reloadProducts();
+    });
     //write your code here to update the product and call when update button clicked
 
 }
