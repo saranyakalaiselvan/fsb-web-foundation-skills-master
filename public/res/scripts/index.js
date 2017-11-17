@@ -85,7 +85,7 @@ function getProducts() {
                         //Right Code to update in the Product Template
                         product_template += ""
                             //+ "<td class='col-lg-3'"
-                            + "<div class='row panel panel-default'><div class='col-lg-3 col-md-3'><div id='image-div'><img src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
+                            + "<div class='col-md-12 panel panel-default'><div class='col-lg-3 col-md-3'><div id='image-div'><img src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
                             + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-motorola'>"
                             + "<span class='fa fa-upload'> Upload</button></div></div>"
                             //+ "</td>"
