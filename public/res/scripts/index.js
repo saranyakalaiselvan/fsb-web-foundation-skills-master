@@ -76,21 +76,21 @@ function getProducts() {
             responseObj = JSON.parse(this.response);
             //User cannot print JSON Object directly, so require JQuery to iterate
             // and show it in HTML
-            product_template="<table>";
+            //product_template="<table>";
 
             $.each(responseObj, function (i, item) {
                 if (i == "data") {
                     data_object = item;
                     $.each(item, function (key, value) {
                         //Right Code to update in the Product Template
-                        product_template += "<tr>"
-                            + "<td class='col-lg-3'"
-                            + "<div><img src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
+                        product_template += ""
+                            //+ "<td class='col-lg-3'"
+                            + "<div class='row'><div class='col-lg-3 col-md-3'><div id='image-div'><img src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
                             + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-motorola'>"
-                            + "<span class='fa fa-upload'> Upload</button></div>"
-                            + "</td>"
-                            + "<td class='col-lg-9'>"
-                            + "<div id=" + value.category + "-" + value._id + "class='col-lg-9'>"
+                            + "<span class='fa fa-upload'> Upload</button></div></div>"
+                            //+ "</td>"
+                            //+ "<td class='col-lg-9'>"
+                            + "<div id=" + value.category + "-" + value._id + "class='col-lg-9 col-md-9'>"
                             + "<h4>" + value.name + "</h4>"
                             + "<p>" + value.description + "</p>"
                             + "<p><span class='label label-default'><i>" + value.category + "</i></span></p>"
@@ -99,9 +99,9 @@ function getProducts() {
                             + "<button id='remove-product-" + value._id + "' class='btn btn-danger'>"
                             + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
                             + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
-                            + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div>"
-                            + "</td>"
-                            + "</tr>";
+                            + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div></div>"
+                           // + "</td>"
+                           // + "</tr>";
                     });
                     product_template += "</table>"
                 }
