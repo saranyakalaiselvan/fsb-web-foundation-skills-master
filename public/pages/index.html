@@ -126,7 +126,7 @@
 
                 <!-- Search Box-->
                 <div class="input-group">
-                    <input type="text" id="searchText" class="form-control" placeholder="Search for..." ondragover="allowDrop(event)" ondrop="drop(event)">
+                    <input type="text" id="searchText" class="form-control">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">
                             <i class="fa fa-search"></i>
@@ -136,7 +136,12 @@
                 <!-- Search box end-->
 
                 <!-- Category Filter Section -->
-
+                <div class="col-md-12 col-lg-12">
+                    <div>
+                        <h4>Category Filter</h4>
+                    </div>
+                    <input type="text" id="dragbox" class="form-control input-lg" />
+                </div>
                 <!--Write your html contents here to Drop Categories-->
 
                 <!-- Category Filter Section End-->
@@ -158,53 +163,55 @@
                                     </h3>
                                 </div>
                             </div>
-
                             <div class="row" id="alert-banner">
                             </div>
-                            <!-- <div class="row" id="test" style="border: 1px solid red"> -->
+                            <!-- This is the panel for list of products -->
+                            <div class="col col-md-9 col-lg-9" id="product-list">
+                            </div>
 
-                                <!-- This is the panel for list of products -->
-                                <div class="col col-md-9 col-lg-9" id="product-list">
-                                </div>
-
-                                <!-- This is the column for Edit and delete Panel #DO NOT TOUCH -->
-                                <div class="col col-lg-3">
-                                    <div class="row" id="alert-banner-form"></div>
-                                    <div class="panel panel-default">
-                                        <div class="col-md-12">
-                                            <h4 class="row x_title" id="heading-form">Add Product</h4>
-                                        </div>
-                                        <div class="panel-body">
-                                            <form id="product-form">
-                                                <div class="form-group">
-                                                    <strong>Name *</strong>
-                                                    <br>
-                                                    <input class="form-control input-sm" type="text" id="add-name" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <strong>Category *</strong>
-                                                    <br>
-                                                    <input class="form-control input-sm" type="text" id="add-category" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <strong>Price *</strong>
-                                                    <br>
-                                                    <input class="form-control input-sm" type="number" id="add-price" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <strong>Description *</strong>
-                                                    <br>
-                                                    <textarea class="form-control input-sm" type="text" id="add-description" required></textarea>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="panel-header" align="center">
-                                            <button id="clear-form" name="cancel" class="btn btn-danger">Cancel</button>
-                                            <button id="save-form" name="success" class="btn btn-success">Submit</button>
-                                        </div>
+                            <!-- This is the column for Edit and delete Panel #DO NOT TOUCH -->
+                            <div class="col col-lg-3">
+                                <div class="row" id="alert-banner-form"></div>
+                                <div class="panel panel-default">
+                                    <div class="col-md-12">
+                                        <h4 class="row x_title" id="heading-form">Add Product</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form id="product-form">
+                                            <div class="form-group">
+                                                <strong>Name *</strong>
+                                                <br>
+                                                <input class="form-control input-sm" type="text" id="add-name" />
+                                            </div>
+                                            <div class="form-group">
+                                                <strong>Category *</strong>
+                                                <br>
+                                                <input class="form-control input-sm" type="text" id="add-category" />
+                                            </div>
+                                            <div class="form-group">
+                                                <strong>Price *</strong>
+                                                <br>
+                                                <input class="form-control input-sm" type="number" id="add-price" />
+                                            </div>
+                                            <div class="form-group">
+                                                <strong>Description *</strong>
+                                                <br>
+                                                <textarea class="form-control input-sm" type="text" id="add-description" required></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="panel-header" align="center">
+                                        <button id="clear-form" name="cancel" class="btn btn-danger">Cancel</button>
+                                        <button id="save-form" name="success" class="btn btn-success">Submit</button>
                                     </div>
                                 </div>
-                                <!--
+                            </div>
+
+
+
+
+
+                            <!--
                                  Write your html code here to display the products
                                  Create only the containers and fill them using jquery
                                  corresponding jquery function to use getProducts()
@@ -222,27 +229,26 @@
                                  Show the messsage in the correct div based on the button which is clicked
                             -->
 
-                            </div>
-
-                            <div class="clearfix"></div>
                         </div>
+
+                        <div class="clearfix"></div>
                     </div>
-
                 </div>
-                <!-- End of all Products -->
-
-                <br />
 
             </div>
-            <!-- /page content -->
+            <!-- End of all Products -->
 
-            <footer>
-                <div class="pull-right">
-                </div>
-                <div class="clearfix"></div>
-            </footer>
-            <!-- /footer content -->
+            <br />
+
         </div>
+        <!-- /page content -->
+
+        <footer>
+            <div class="pull-right">
+            </div>
+            <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
     </div>
 
     <script src="../libs/jquery/dist/jquery.min.js"></script>
