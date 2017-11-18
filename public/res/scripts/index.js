@@ -23,6 +23,12 @@ var data_object;
 // A $(document).ready() block.
 $(document).ready(function () {
     //Write any code you want executed in a $(document).ready() block here
+    $("#upload-image").hide();
+    
+    $("div[id^='image-div-']").on("click", function () {
+        $("#upload-image").click();
+    });
+
     var editId;
     /* Function when remove button is clicked */
     $("button[id^='remove-product-']").on("click", function () {
@@ -84,14 +90,12 @@ function getProducts() {
                     data_object = item;
                     $.each(item, function (key, value) {
                         //Right Code to update in the Product Template
-                        product_template += ""
-                            //+ "<td class='col-lg-3'"
-                            + "<div class='col-md-12 panel panel-default'><div class='col-lg-3 col-md-3'><div id='image-div'><img src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
+                        product_template += "<div class='col-md-12 panel panel-default'>"
+                            + "<div class='col-lg-3 col-md-3'><div id='image-div-" + value._id + "'>"
+                            + "<img class='img-responsive' src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
                             + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-motorola'>"
                             + "<span class='fa fa-upload'> Upload</button></div></div>"
-                            //+ "</td>"
-                            //+ "<td class='col-lg-9'>"
-                            + "<div id=" + value.category + "-" + value._id + "class='col-lg-9 col-md-9'>"
+                            + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9'>"
                             + "<h4>" + value.name + "</h4>"
                             + "<p>" + value.description + "</p>"
                             + "<p><span class='label label-default'><i>" + value.category + "</i></span></p>"
@@ -103,7 +107,7 @@ function getProducts() {
                             + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div></div>"
                         // + "</td>"
                         // + "</tr>";
-                        button_categories += "<button id='drag-" + value.category + "' class='btn btn-success'>"+value.category+"</button> ";
+                        button_categories += "<button id='drag-" + value.category + "' class='btn btn-success draggable'>" + value.category + "</button> ";
                     });
                     product_template += "</table>"
                 }
