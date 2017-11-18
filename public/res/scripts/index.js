@@ -12,6 +12,7 @@
 /*Global Variables Section*/
 var removeSuccessAlert = "<div class='row'><div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button>Successfully Removed</div></div>";
 var product_template = "";
+var button_categories = "";
 var responseObj;
 var data_object;
 
@@ -38,12 +39,12 @@ $(document).ready(function () {
         editId = this.id.substr(13);
         $("#heading-form").html("Edit Product");
         $("#save-form").replaceWith("<button id='update-form' name='success' class='btn btn-success'>Update</button>");
-        $.each(data_object,function(key,element){
-            if(element._id == editId){
-                document.getElementById("add-name").value=element.name;
-                document.getElementById("add-price").value=element.price;
-                document.getElementById("add-category").value=element.category;
-                document.getElementById("add-description").value=element.description;
+        $.each(data_object, function (key, element) {
+            if (element._id == editId) {
+                document.getElementById("add-name").value = element.name;
+                document.getElementById("add-price").value = element.price;
+                document.getElementById("add-category").value = element.category;
+                document.getElementById("add-description").value = element.description;
             }
         });
     });
@@ -59,7 +60,7 @@ $(document).ready(function () {
         createProduct(getInputData());
     });
 
-    $("#clear-form").on("click",function(){
+    $("#clear-form").on("click", function () {
         document.getElementById("product-form").reset();
         $("#heading-form").html("Add Product");
         $("#update-form").replaceWith("<button id='save-form' name='success' class='btn btn-success'>Submit</button>");
@@ -100,8 +101,9 @@ function getProducts() {
                             + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
                             + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
                             + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div></div>"
-                           // + "</td>"
-                           // + "</tr>";
+                        // + "</td>"
+                        // + "</tr>";
+                        button_categories += "<button id='drag-" + value.category + "' class='btn btn-success'>"+value.category+"</button> ";
                     });
                     product_template += "</table>"
                 }
@@ -110,6 +112,7 @@ function getProducts() {
             document.getElementById("product-list").innerHTML = "<h4>No Products Available</h4>"
         }
         document.getElementById("product-list").innerHTML = product_template;
+        document.getElementById("button-categories").innerHTML = button_categories;
     };
     xhttp.open("GET", "products", true);
     xhttp.send();
@@ -144,7 +147,7 @@ function getProducts() {
     Iterate through this response array and dynamically create the products list
     using JavaScript DOM and innerHTML.
     ***/
-    product_template="";
+    product_template = "";
 }
 
 //Initial call to populate the Products list the first time the page loads
@@ -242,7 +245,7 @@ function removeProduct(id) {
         type: 'DELETE',
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
-        }        
+        }
     }).done(function () {
         $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
         reloadProducts();
@@ -255,7 +258,7 @@ function editProduct(id) {
     $.ajax({
         url: "http://localhost:3000/product/" + id,
         type: 'PUT',
-        dataType: 'json', 
+        dataType: 'json',
         data: getInputData(),
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
