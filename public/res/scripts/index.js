@@ -10,7 +10,6 @@
 
 
 /*Global Variables Section*/
-var removeSuccessAlert = "<div class='row'><div class='alert alert-success'><button type='button' class='close' data-dismiss='alert'>x</button>Successfully Removed</div></div>";
 var product_template = "";
 var button_categories = "";
 var responseObj;
@@ -80,7 +79,7 @@ $(document).ready(function () {
         });
     });
 
-  
+
     /* Function when add product button is clicked */
     $("#save-form").on("click", function () {
         createProduct(getInputData());
@@ -91,7 +90,6 @@ $(document).ready(function () {
         $("#heading-form").html("Add Product");
         $("#update-form").replaceWith("<button id='save-form' name='success' class='btn btn-success'>Submit</button>");
     });
-
 });
 
 //Get List of Products from the database
@@ -112,7 +110,7 @@ function getProducts() {
                         //Right Code to update in the Product Template
                         product_template += "<div class='col-md-12 panel panel-default'>"
                             + "<div class='col-lg-3 col-md-3'><div>"
-                            + "<img id='image-div-" + value._id + "' class='img-responsive' src=" + value.productImg.filePath.substr(9) + " style='width:100%;height:100%'></div>"
+                            + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
                             + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
                             + "<span class='fa fa-upload'> Upload</button></div></div>"
                             + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9'>"
@@ -169,6 +167,8 @@ function getProducts() {
     using JavaScript DOM and innerHTML.
     ***/
     product_template = "";
+    button_categories = "";
+
 }
 
 //Initial call to populate the Products list the first time the page loads
@@ -254,6 +254,7 @@ function getInputData() {
 
 function reloadProducts() {
     $("#product-list").empty();
+    $('#button-categories').empty();
     getProducts();
 }
 
@@ -302,7 +303,7 @@ function createProduct(newData) {
             console.log("Status: ", status);
         }
     }).done(function () {
-        $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>File Created Successfully.</div>');
+        $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Product Successfully Saved</div>');
         reloadProducts();
     });
 
