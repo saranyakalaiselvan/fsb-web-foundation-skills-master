@@ -24,10 +24,31 @@ var data_object;
 $(document).ready(function () {
     //Write any code you want executed in a $(document).ready() block here
     $("#upload-image").hide();
-    
-    $("div[id^='image-div-']").on("click", function () {
+
+    $("img[id^='image-div-']").on("click", function () {
+        var image_id = this.id;
+        console.log(image_id);
         $("#upload-image").click();
+        $('#upload-image').change(function () {
+            readURL(image_id, this);
+        })
     });
+
+    function readURL(id, input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#' + id).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+
+            $("button[id^='upload-']").on("click", function () {
+                var upload_id = this.id.substr(7);
+                uploadImage(upload_id, input.files[0]);
+            });
+        }
+    }
 
     var editId;
     /* Function when remove button is clicked */
@@ -53,16 +74,15 @@ $(document).ready(function () {
                 document.getElementById("add-description").value = element.description;
             }
         });
+
+        $("#update-form").on("click", function () {
+            editProduct(editId);
+        });
     });
 
-    $("#update-form").on("click", function () {
-        editProduct(editId);
-    });
-
+  
     /* Function when add product button is clicked */
     $("#save-form").on("click", function () {
-        $("#product-form").validate();
-        console.log("I am inside save form")
         createProduct(getInputData());
     });
 
@@ -91,9 +111,9 @@ function getProducts() {
                     $.each(item, function (key, value) {
                         //Right Code to update in the Product Template
                         product_template += "<div class='col-md-12 panel panel-default'>"
-                            + "<div class='col-lg-3 col-md-3'><div id='image-div-" + value._id + "'>"
-                            + "<img class='img-responsive' src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
-                            + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-motorola'>"
+                            + "<div class='col-lg-3 col-md-3'><div>"
+                            + "<img id='image-div-" + value._id + "' class='img-responsive' src=" + value.productImg.filePath.substr(9) + " style='width:100%;height:100%'></div>"
+                            + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
                             + "<span class='fa fa-upload'> Upload</button></div></div>"
                             + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9'>"
                             + "<h4>" + value.name + "</h4>"
@@ -105,11 +125,8 @@ function getProducts() {
                             + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
                             + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
                             + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div></div>"
-                        // + "</td>"
-                        // + "</tr>";
                         button_categories += "<button id='drag-" + value.category + "' class='btn btn-success draggable'>" + value.category + "</button> ";
                     });
-                    product_template += "</table>"
                 }
             });
         } else if (this.status == 404) {
@@ -277,7 +294,6 @@ function editProduct(id) {
 
 function createProduct(newData) {
 
-    console.log(newData);
     $.ajax({
         url: "http://localhost:3000/product",
         type: 'POST',
@@ -285,6 +301,9 @@ function createProduct(newData) {
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
         }
+    }).done(function () {
+        $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>File Created Successfully.</div>');
+        reloadProducts();
     });
 
     //write your code here to create  the product and call when add button clicked
@@ -351,6 +370,24 @@ $(document).ready(function () {
 
 
 //Code block for Image Upload
+function uploadImage(id, file) {
+    var formData = new FormData();
+    formData.append('file', file);
+    console.log(formData.get);
+    $.ajax({
+        url: "http://localhost:3000/product/" + id + "/ProductImg",
+        type: 'PUT',
+        data: formData,
+        contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+        processData: false, // NEEDED, DON'T OMIT THIS
+        success: function (data, status, jqXmlHttpRequest) {
+            console.log("Status: ", status);
+        }
+    }).done(function () {
+        $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Image Uploaded Successfully</div>');
+        reloadProducts();
+    });
+}
 
 /*
     //Write your Code here for the Image Upload Feature
