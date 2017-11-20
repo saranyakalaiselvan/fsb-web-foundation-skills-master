@@ -24,7 +24,7 @@ $(document).ready(function () {
     //Write any code you want executed in a $(document).ready() block here
     $("#upload-image").hide();
 
-    $("img[id^='image-div-']").on("click", function () {
+    $(document).on("click", "img[id^='image-div-']", function () {
         var image_id = this.id;
         console.log(image_id);
         $("#upload-image").click();
@@ -49,9 +49,8 @@ $(document).ready(function () {
         }
     }
 
-    var editId;
     /* Function when remove button is clicked */
-    $("button[id^='remove-product-']").on("click", function () {
+    $(document).on("click", "button[id^='remove-product-']", function () {
         var removeId = this.id.substr(15);
         $('#myModal').modal('show');
         $("#confirm-delete").on("click", function () {
@@ -60,8 +59,9 @@ $(document).ready(function () {
         });
     });
 
+    var editId;
     /* Function when edit button is clicked */
-    $("button[id^='edit-product-']").click(function () {
+    $(document).on("click", "button[id^='edit-product-']", function () {
         editId = this.id.substr(13);
         $("#heading-form").html("Edit Product");
         $("#save-form").replaceWith("<button id='update-form' name='success' class='btn btn-success'>Update</button>");
@@ -74,18 +74,18 @@ $(document).ready(function () {
             }
         });
 
-        $("#update-form").on("click", function () {
+        $(document).on("click", "#update-form", function () {
             editProduct(editId);
         });
     });
 
 
     /* Function when add product button is clicked */
-    $("#save-form").on("click", function () {
+    $(document).on("click", "#save-form", function () {
         createProduct(getInputData());
     });
 
-    $("#clear-form").on("click", function () {
+    $(document).on("click", "#clear-form", function () {
         document.getElementById("product-form").reset();
         $("#heading-form").html("Add Product");
         $("#update-form").replaceWith("<button id='save-form' name='success' class='btn btn-success'>Submit</button>");
@@ -267,10 +267,11 @@ function removeProduct(id) {
         type: 'DELETE',
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
+        },
+        complete: function () {
+            $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
+            reloadProducts();
         }
-    }).done(function () {
-        $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
-        reloadProducts();
     });
     //write your code here to remove the product and call when remove button clicked
 }
@@ -379,8 +380,8 @@ function uploadImage(id, file) {
         url: "http://localhost:3000/product/" + id + "/ProductImg",
         type: 'PUT',
         data: formData,
-        contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
-        processData: false, // NEEDED, DON'T OMIT THIS
+        contentType: false,
+        processData: false,
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
         }
