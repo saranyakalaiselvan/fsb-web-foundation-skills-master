@@ -368,9 +368,13 @@ function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
+var initial_id = "";
+
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
+    if(initial_id != data) {
+    initial_id = data; 
     var categoryName = $('#' + data).val();
     var test = document.createElement('button');
     test.type = "button";
@@ -386,6 +390,7 @@ function drop(ev) {
 
     ev.target.appendChild(test);
     ev.target.appendChild(spanElement);
+}
 
 }
 
