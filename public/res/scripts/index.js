@@ -108,7 +108,7 @@ $(document).ready(function () {
         category_filter = category_filter.filter(function(value){
             return value != category;
         });
-
+        
         categoryFilter();
     });
 });
@@ -416,9 +416,9 @@ function drop(ev) {
 //Code block for Free Text Search
 $(document).ready(function () {
     $("#searchText").keyup(function () {
-        var searchText = $(this).val();
-
-        $("#product-list #test-filter").each(function (key, productListDiv) {
+         var searchText = $(this).val();
+        
+         $("#product-list #test-filter").each(function (key, productListDiv) {
            
             if ($(productListDiv).text().search(searchText) < 0) {
                 $(productListDiv).hide();
@@ -449,15 +449,25 @@ $(document).ready(function () {
 
 function categoryFilter() {
     $.each(category_filter, function (i, category_name) {
+    
         $("#product-list #test-filter").each(function (key, productListDiv) {
             if ($(productListDiv).text().search(category_name) < 0) {
                 $(productListDiv).hide();
             }
-            else {
-                $(productListDiv).show();
-            }
         });
     });
+
+    $.each(category_filter, function (i, category_name) {
+            $("#product-list #test-filter").each(function (key, productListDiv) {
+                if ($(productListDiv).text().search(category_name) > 0) {
+                    $(productListDiv).show();
+                }
+            });
+        });
+
+        if(category_filter.length == 0){
+            $("#product-list #test-filter").show();
+        }
 }
 
 //Code block for Image Upload
