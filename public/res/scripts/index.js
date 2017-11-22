@@ -14,6 +14,10 @@ var product_template = "";
 var button_categories = "";
 var responseObj;
 var data_object;
+var input_name;
+var input_category;
+var input_description;
+var input_price;
 
 //Declare your Global Variables inside this block
 
@@ -75,14 +79,18 @@ $(document).ready(function () {
         });
 
         $(document).on("click", "#update-form", function () {
-            editProduct(editId);
+            if (validateForm()) {
+                editProduct(editId);
+            }
         });
     });
 
 
     /* Function when add product button is clicked */
     $(document).on("click", "#save-form", function () {
-        createProduct(getInputData());
+        if (validateForm()) {
+            createProduct(getInputData());
+        }
     });
 
     $(document).on("click", "#clear-form", function () {
@@ -251,13 +259,27 @@ getProducts();
  Set the mode to Add
 
  */
+function validateForm() {
+    input_name = document.getElementById("add-name").value;
+    input_category = document.getElementById("add-category").value;
+    input_description = document.getElementById("add-description").value;
+    input_price = document.getElementById("add-price").value;
+
+    if (input_name != "" && input_category != "" && input_description != "" && input_price != "") {
+        return true;
+    } else {
+        $("#alert-banner-form").html('<div class="alert alert-danger alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please fill all fields</div>');
+        return false;
+    }
+}
 function getInputData() {
+
     return {
-        name: document.getElementById("add-name").value,
-        category: document.getElementById("add-category").value,
-        description: document.getElementById("add-description").value,
-        price: document.getElementById("add-price").value
-    };
+        name: input_name,
+        category: input_category,
+        description: input_description,
+        price: input_price
+    }
 }
 
 /*Remove Product*/
@@ -349,7 +371,21 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
+    var categoryName = $('#' + data).val();
+    var test = document.createElement('button');
+    test.type = "button";
+    test.value = categoryName;
+    test.className = "btn btn-success";
+    test.innerHTML = categoryName;
+
+    var spanElement = document.createElement('i');
+    spanElement.className = "fa fa-times-circle";
+    spanElement.id = "close-" + categoryName;
+    spanElement.style.color = "#a50b0b";
+    spanElement.setAttribute("aria-hidden", "true");
+
+    ev.target.appendChild(test);
+    ev.target.appendChild(spanElement);
 
 }
 
