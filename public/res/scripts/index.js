@@ -18,6 +18,7 @@ var input_name;
 var input_category;
 var input_description;
 var input_price;
+var category_filter = [];
 
 //Declare your Global Variables inside this block
 
@@ -98,6 +99,18 @@ $(document).ready(function () {
         $("#heading-form").html("Add Product");
         $("#update-form").replaceWith("<button id='save-form' name='success' class='btn btn-success'>Submit</button>");
     });
+
+    $(document).on("click", "i[id^='close-']", function () {
+        var category = this.id.substr(6);
+        $( "#drop-" + category ).remove();
+        $( "#close-" + category ).remove();
+        
+        category_filter = category_filter.filter(function(value){
+            return value != category;
+        });
+
+        categoryFilter();
+    });
 });
 
 //Get List of Products from the database
@@ -119,7 +132,7 @@ function getProducts() {
                     data_object = item;
                     $.each(item, function (key, value) {
                         //Right Code to update in the Product Template
-                        product_template += "<div class='col-md-12 panel panel-default'>"
+                        product_template += "<div class='col-md-12 panel panel-default' id = 'test-filter'>"
                             + "<div class='col-lg-3 col-md-3'><div>"
                             + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
                             + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
@@ -376,11 +389,14 @@ function drop(ev) {
     if(initial_id != data) {
     initial_id = data; 
     var categoryName = $('#' + data).val();
+    category_filter.push(categoryName);
+
     var test = document.createElement('button');
     test.type = "button";
     test.value = categoryName;
     test.className = "btn btn-success";
     test.innerHTML = categoryName;
+    test.id = "drop-" + categoryName;
 
     var spanElement = document.createElement('i');
     spanElement.className = "fa fa-times-circle";
@@ -390,6 +406,9 @@ function drop(ev) {
 
     ev.target.appendChild(test);
     ev.target.appendChild(spanElement);
+
+    categoryFilter();
+    
 }
 
 }
@@ -399,7 +418,8 @@ $(document).ready(function () {
     $("#searchText").keyup(function () {
         var searchText = $(this).val();
 
-        $("#product-list div").each(function (key, productListDiv) {
+        $("#product-list #test-filter").each(function (key, productListDiv) {
+           
             if ($(productListDiv).text().search(searchText) < 0) {
                 $(productListDiv).hide();
             } else {
@@ -426,6 +446,19 @@ $(document).ready(function () {
 
 });
 
+
+function categoryFilter() {
+    $.each(category_filter, function (i, category_name) {
+        $("#product-list #test-filter").each(function (key, productListDiv) {
+            if ($(productListDiv).text().search(category_name) < 0) {
+                $(productListDiv).hide();
+            }
+            else {
+                $(productListDiv).show();
+            }
+        });
+    });
+}
 
 //Code block for Image Upload
 function uploadImage(id, file) {
