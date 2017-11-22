@@ -94,6 +94,9 @@ $(document).ready(function () {
 
 //Get List of Products from the database
 function getProducts() {
+    $("#button-categories").empty();
+    $("#product-list").empty();
+
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -102,7 +105,7 @@ function getProducts() {
             //User cannot print JSON Object directly, so require JQuery to iterate
             // and show it in HTML
             //product_template="<table>";
-
+            var cat_array = [];
             $.each(responseObj, function (i, item) {
                 if (i == "data") {
                     data_object = item;
@@ -116,20 +119,25 @@ function getProducts() {
                             + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9'>"
                             + "<h4>" + value.name + "</h4>"
                             + "<p>" + value.description + "</p>"
-                            + "<p><span class='label label-default'><i>" + value.category + "</i></span></p>"
+                            + "<p><span class='label label-default'><i id='product-category'>" + value.category + "</i></span></p>"
                             + "<b style='color: brown'>Rs. <i>" + value.price + "</i></b></div>"
                             + "<div class='col-lg-12 panel-footer'><div>"
                             + "<button id='remove-product-" + value._id + "' class='btn btn-danger'>"
                             + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
                             + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
                             + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div></div>"
-                        button_categories += "<button id='drag-" + value.category + "' class='btn btn-success draggable'>" + value.category + "</button> ";
+                        cat_array.push(value.category);
                     });
                 }
             });
         } else if (this.status == 404) {
             document.getElementById("product-list").innerHTML = "<h4>No Products Available</h4>"
         }
+
+        $.each(jQuery.unique(cat_array), function (i, value) {
+            button_categories += "<button id='drag-" + value + "' class='btn btn-success draggable' draggable='true' ondragstart='drag(event)' value = " + value + ">" + value + "</button>";
+        });
+
         document.getElementById("product-list").innerHTML = product_template;
         document.getElementById("button-categories").innerHTML = button_categories;
     };
@@ -252,13 +260,6 @@ function getInputData() {
     };
 }
 
-function reloadProducts() {
-    $("#product-list").empty();
-    $('#button-categories').empty();
-    getProducts();
-}
-
-
 /*Remove Product*/
 function removeProduct(id) {
     console.log("Remove" + id);
@@ -270,7 +271,7 @@ function removeProduct(id) {
         },
         complete: function () {
             $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
-            reloadProducts();
+            getProducts();
         }
     });
     //write your code here to remove the product and call when remove button clicked
@@ -288,7 +289,7 @@ function editProduct(id) {
         }
     }).done(function () {
         $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Updated Successfully</div>');
-        reloadProducts();
+        getProducts();
     });
     //write your code here to update the product and call when update button clicked
 
@@ -302,10 +303,11 @@ function createProduct(newData) {
         data: newData,
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
+        },
+        complete: function () {
+            $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Product Successfully Saved</div>');
+            getProducts();
         }
-    }).done(function () {
-        $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Product Successfully Saved</div>');
-        reloadProducts();
     });
 
     //write your code here to create  the product and call when add button clicked
@@ -336,7 +338,20 @@ function createProduct(newData) {
     Filter the products list with, products belonging to the selected categories only
 
  */
+function allowDrop(ev) {
+    ev.preventDefault();
+}
 
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+
+}
 
 //Code block for Free Text Search
 $(document).ready(function () {
@@ -387,7 +402,7 @@ function uploadImage(id, file) {
         }
     }).done(function () {
         $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Image Uploaded Successfully</div>');
-        reloadProducts();
+        getProducts();
     });
 }
 
