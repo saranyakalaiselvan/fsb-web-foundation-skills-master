@@ -19,6 +19,7 @@ var input_category;
 var input_description;
 var input_price;
 var category_filter = [];
+var initial_drop_id = "";
 
 //Declare your Global Variables inside this block
 
@@ -102,13 +103,14 @@ $(document).ready(function () {
 
     $(document).on("click", "i[id^='close-']", function () {
         var category = this.id.substr(6);
-        $( "#drop-" + category ).remove();
-        $( "#close-" + category ).remove();
-        
-        category_filter = category_filter.filter(function(value){
+        $("#drop-" + category).remove();
+        $("#close-" + category).remove();
+        initial_drop_id = "";
+
+        category_filter = category_filter.filter(function (value) {
             return value != category;
         });
-        
+
         categoryFilter();
     });
 });
@@ -119,38 +121,38 @@ function getProducts() {
     $("#button-categories").empty();
     $('#clear-form').click();
 
-    $.get("products", function(responseObj){
-         //JSON.parse is used to convert response String into JSON object
-            //responseObj = JSON.parse(responseObj);
-            //User cannot print JSON Object directly, so require JQuery to iterate
-            // and show it in HTML
-            //product_template="<table>"
-            var cat_array = [];
-            $.each(responseObj, function (i, item) {
-                if (i == "data") {
-                    data_object = item;
-                    $.each(item, function (key, value) {
-                        //Right Code to update in the Product Template
-                        product_template += "<div class='col-md-12 panel panel-default' id = 'test-filter'>"
-                            + "<div class='col-lg-3 col-md-3'><div>"
-                            + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail'></div>"
-                            + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
-                            + "<span class='fa fa-upload'> Upload</button></div></div>"
-                            + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9'>"
-                            + "<h4>" + value.name + "</h4>"
-                            + "<p>" + value.description + "</p>"
-                            + "<p><span class='label label-default'><i id='product-category'>" + value.category + "</i></span></p>"
-                            + "<b style='color: brown'>Rs. <i>" + value.price + "</i></b></div>"
-                            + "<div class='col-lg-12 panel-footer'><div>"
-                            + "<button id='remove-product-" + value._id + "' class='btn btn-danger'>"
-                            + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
-                            + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
-                            + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div></div>"
-                        cat_array.push(value.category);
-                    });
-                }
-            });
-      
+    $.get("products", function (responseObj) {
+        //JSON.parse is used to convert response String into JSON object
+        //responseObj = JSON.parse(responseObj);
+        //User cannot print JSON Object directly, so require JQuery to iterate
+        // and show it in HTML
+        //product_template="<table>"
+        var cat_array = [];
+        $.each(responseObj, function (i, item) {
+            if (i == "data") {
+                data_object = item;
+                $.each(item, function (key, value) {
+                    //Right Code to update in the Product Template
+                    product_template += "<div class='col-md-12 panel panel-default' id = 'test-filter'>"
+                        + "<div class='col-lg-3 col-md-3'><div>"
+                        + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail'></div>"
+                        + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
+                        + "<span class='fa fa-upload'> Upload</button></div></div>"
+                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9'>"
+                        + "<h4>" + value.name + "</h4>"
+                        + "<p>" + value.description + "</p>"
+                        + "<p><span class='label label-default'><i id='product-category'>" + value.category + "</i></span></p>"
+                        + "<b style='color: brown'>Rs. <i>" + value.price + "</i></b></div>"
+                        + "<div class='col-lg-12 panel-footer'><div>"
+                        + "<button id='remove-product-" + value._id + "' class='btn btn-danger'>"
+                        + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
+                        + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
+                        + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div></div>"
+                    cat_array.push(value.category);
+                });
+            }
+        });
+
 
         $.each(jQuery.unique(cat_array), function (i, value) {
             button_categories += "<button id='drag-" + value + "' class='btn btn-success draggable' draggable='true' ondragstart='drag(event)' value = " + value + ">" + value + "</button>";
@@ -160,8 +162,8 @@ function getProducts() {
         document.getElementById("button-categories").innerHTML = button_categories;
 
     });
-        
-           
+
+
     /***
     Write your code for fetching the list of product from the database
     
@@ -278,7 +280,7 @@ function validateForm() {
         return true;
     } else {
         $("#alert-banner-form").html('<div class="alert alert-danger alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please fill all fields</div>');
-        setTimeout(function(){ $("#alert-banner-form").slideUp(500); }, 3000); 
+        setTimeout(function () { $("#alert-banner-form").slideUp(500); }, 3000);
         return false;
     }
 }
@@ -303,7 +305,7 @@ function removeProduct(id) {
         },
         complete: function () {
             $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
-            setTimeout(function(){ $("#alert-banner").slideUp(500); }, 3000); 
+            setTimeout(function () { $("#alert-banner").slideUp(500); }, 3000);
             getProducts();
         }
     });
@@ -320,9 +322,9 @@ function editProduct(id) {
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
         },
-        complete: function(data) {
+        complete: function (data) {
             $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Updated Successfully</div>');
-            setTimeout(function(){ $("#alert-banner-form").slideUp(500); }, 3000); 
+            setTimeout(function () { $("#alert-banner-form").slideUp(500); }, 3000);
             getProducts();
         }
     });
@@ -341,7 +343,7 @@ function createProduct(newData) {
         },
         complete: function () {
             $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Product Successfully Saved</div>');
-            setTimeout(function(){ $("#alert-banner-form").slideUp(500); }, 3000); 
+            setTimeout(function () { $("#alert-banner-form").slideUp(500); }, 3000);
             getProducts();
         }
     });
@@ -382,45 +384,43 @@ function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
-var initial_id = "";
-
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    if(initial_id != data) {
-    initial_id = data; 
-    var categoryName = $('#' + data).val();
-    category_filter.push(categoryName);
+    if (initial_drop_id != data) {
+        initial_drop_id = data;
+        var categoryName = $('#' + data).val();
+        category_filter.push(categoryName);
 
-    var test = document.createElement('button');
-    test.type = "button";
-    test.value = categoryName;
-    test.className = "btn btn-success";
-    test.innerHTML = categoryName;
-    test.id = "drop-" + categoryName;
+        var test = document.createElement('button');
+        test.type = "button";
+        test.value = categoryName;
+        test.className = "btn btn-success";
+        test.innerHTML = categoryName;
+        test.id = "drop-" + categoryName;
 
-    var spanElement = document.createElement('i');
-    spanElement.className = "fa fa-times-circle";
-    spanElement.id = "close-" + categoryName;
-    spanElement.style.color = "#a50b0b";
-    spanElement.setAttribute("aria-hidden", "true");
+        var spanElement = document.createElement('i');
+        spanElement.className = "fa fa-times-circle";
+        spanElement.id = "close-" + categoryName;
+        spanElement.style.color = "#a50b0b";
+        spanElement.setAttribute("aria-hidden", "true");
 
-    ev.target.appendChild(test);
-    ev.target.appendChild(spanElement);
+        ev.target.appendChild(test);
+        ev.target.appendChild(spanElement);
 
-    categoryFilter();
-    
-}
+        categoryFilter();
+
+    }
 
 }
 
 //Code block for Free Text Search
 $(document).ready(function () {
     $("#searchText").keyup(function () {
-         var searchText = $(this).val();
-        
-         $("#product-list #test-filter").each(function (key, productListDiv) {
-           
+        var searchText = $(this).val();
+
+        $("#product-list #test-filter").each(function (key, productListDiv) {
+
             if ($(productListDiv).text().search(searchText) < 0) {
                 $(productListDiv).hide();
             } else {
@@ -450,7 +450,7 @@ $(document).ready(function () {
 
 function categoryFilter() {
     $.each(category_filter, function (i, category_name) {
-    
+
         $("#product-list #test-filter").each(function (key, productListDiv) {
             if ($(productListDiv).text().search(category_name) < 0) {
                 $(productListDiv).hide();
@@ -459,16 +459,16 @@ function categoryFilter() {
     });
 
     $.each(category_filter, function (i, category_name) {
-            $("#product-list #test-filter").each(function (key, productListDiv) {
-                if ($(productListDiv).text().search(category_name) > 0) {
-                    $(productListDiv).show();
-                }
-            });
+        $("#product-list #test-filter").each(function (key, productListDiv) {
+            if ($(productListDiv).text().search(category_name) > 0) {
+                $(productListDiv).show();
+            }
         });
+    });
 
-        if(category_filter.length == 0){
-            $("#product-list #test-filter").show();
-        }
+    if (category_filter.length == 0) {
+        $("#product-list #test-filter").show();
+    }
 }
 
 //Code block for Image Upload
@@ -487,7 +487,7 @@ function uploadImage(id, file) {
         }
     }).done(function () {
         $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Image Uploaded Successfully</div>');
-        setTimeout(function(){ $("#alert-banner-form").slideUp(500); }, 3000); 
+        setTimeout(function () { $("#alert-banner-form").slideUp(500); }, 3000);
         getProducts();
     });
 }
