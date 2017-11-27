@@ -118,7 +118,6 @@ function getProducts() {
     $("#button-categories").empty();
     $("#product-list").empty();
     $('#clear-form').click();
-   // $('#product-form').trigger("reset");
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -136,7 +135,7 @@ function getProducts() {
                         //Right Code to update in the Product Template
                         product_template += "<div class='col-md-12 panel panel-default' id = 'test-filter'>"
                             + "<div class='col-lg-3 col-md-3'><div>"
-                            + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " style='width:100%'></div>"
+                            + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail'></div>"
                             + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
                             + "<span class='fa fa-upload'> Upload</button></div></div>"
                             + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9'>"
