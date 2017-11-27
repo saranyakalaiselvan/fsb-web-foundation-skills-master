@@ -115,18 +115,16 @@ $(document).ready(function () {
 
 //Get List of Products from the database
 function getProducts() {
-    $("#button-categories").empty();
     $("#product-list").empty();
+    $("#button-categories").empty();
     $('#clear-form').click();
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            //JSON.parse is used to convert response String into JSON object
-            responseObj = JSON.parse(this.response);
+    $.get("products", function(responseObj){
+         //JSON.parse is used to convert response String into JSON object
+            //responseObj = JSON.parse(responseObj);
             //User cannot print JSON Object directly, so require JQuery to iterate
             // and show it in HTML
-            //product_template="<table>";
+            //product_template="<table>"
             var cat_array = [];
             $.each(responseObj, function (i, item) {
                 if (i == "data") {
@@ -152,9 +150,7 @@ function getProducts() {
                     });
                 }
             });
-        } else if (this.status == 404) {
-            document.getElementById("product-list").innerHTML = "<h4>No Products Available</h4>"
-        }
+      
 
         $.each(jQuery.unique(cat_array), function (i, value) {
             button_categories += "<button id='drag-" + value + "' class='btn btn-success draggable' draggable='true' ondragstart='drag(event)' value = " + value + ">" + value + "</button>";
@@ -162,11 +158,10 @@ function getProducts() {
 
         document.getElementById("product-list").innerHTML = product_template;
         document.getElementById("button-categories").innerHTML = button_categories;
-    };
-    xhttp.open("GET", "products", true);
-    xhttp.send();
 
-
+    });
+        
+           
     /***
     Write your code for fetching the list of product from the database
     
@@ -324,11 +319,12 @@ function editProduct(id) {
         data: getInputData(),
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
+        },
+        complete: function(data) {
+            $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Updated Successfully</div>');
+            setTimeout(function(){ $("#alert-banner-form").slideUp(500); }, 3000); 
+            getProducts();
         }
-    }).done(function () {
-        $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Updated Successfully</div>');
-        setTimeout(function(){ $("#alert-banner-form").slideUp(500); }, 3000); 
-        getProducts();
     });
     //write your code here to update the product and call when update button clicked
 
