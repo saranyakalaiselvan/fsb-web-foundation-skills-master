@@ -417,11 +417,10 @@ function drop(ev) {
 //Code block for Free Text Search
 $(document).ready(function () {
     $("#searchText").keyup(function () {
-        var searchText = $(this).val();
-
+        var searchText = $(this).val().toUpperCase();
         $("#product-list #test-filter").each(function (key, productListDiv) {
 
-            if ($(productListDiv).text().search(searchText) < 0) {
+            if ($(productListDiv).text().toUpperCase().search(searchText) < 0) {
                 $(productListDiv).hide();
             } else {
                 $(productListDiv).show();
