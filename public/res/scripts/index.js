@@ -58,7 +58,6 @@ $(document).ready(function () {
     /* Function when remove button is clicked */
     $(document).on("click", "button[id^='remove-product-']", function () {
         var removeId = this.id.substr(15);
-        $('#myModal').modal('show');
         $("#confirm-delete").on("click", function () {
             $('#myModal').modal('hide');
             removeProduct(removeId);
@@ -138,15 +137,15 @@ function getProducts() {
                         + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail'></div>"
                         + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
                         + "<span class='fa fa-upload'> Upload</button></div></div>"
-                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9'>"
+                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9 text-justify'>"
                         + "<h4>" + value.name + "</h4>"
                         + "<p>" + value.description + "</p>"
                         + "<p><span class='label label-default'><i id='product-category'>" + value.category + "</i></span></p>"
                         + "<b style='color: brown'>Rs. <i>" + value.price + "</i></b></div>"
-                        + "<div class='col-lg-12 panel-footer'><div>"
-                        + "<button id='remove-product-" + value._id + "' class='btn btn-danger'>"
+                        + "<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12 panel-footer'><div>"
+                        + "<button id='remove-product-" + value._id + "' class='btn btn-danger pull-right' data-toggle='modal' data-target='#myModal'>"
                         + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
-                        + "<button id='edit-product-" + value._id + "' class='btn btn-success'>"
+                        + "<button id='edit-product-" + value._id + "' class='btn btn-success pull-right'>"
                         + "<span class='glyphicon glyphicon-edit'></span> Edit</button></div></div></div>"
                     cat_array.push(value.category);
                 });
