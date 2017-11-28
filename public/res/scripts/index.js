@@ -39,21 +39,25 @@ $(document).ready(function () {
         })
     });
 
+    var upload_id;
+    var image_file;
+
     function readURL(id, input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-
+            
             reader.onload = function (e) {
                 $('#' + id).attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
-
-            $("button[id^='upload-']").on("click", function () {
-                var upload_id = this.id.substr(7);
-                uploadImage(upload_id, input.files[0]);
-            });
+            image_file = input.files[0];
         }
     }
+    
+    $(document).on("click", "button[id^='upload-']", function () {
+        upload_id = this.id.substr(7);
+        uploadImage(upload_id, image_file);
+    });
 
     var removeId;
     /* Function when remove button is clicked */
