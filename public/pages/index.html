@@ -24,12 +24,12 @@
 
 <body class="nav-md">
     <!-- Modal to display confirmation dialog box -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog modal-md">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h4 class="modal-title">Confirm Delete</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Confirm Delete</h4>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to remove this product?</p>
