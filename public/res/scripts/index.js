@@ -166,17 +166,16 @@ function getProducts() {
                 data_object = item;
                 $.each(item, function (key, value) {
                     //Right Code to update in the Product Template
-                    product_template += "<div class='col-md-12 panel panel-default' id = 'test-filter'>"
-                        + "<div class='col-lg-3 col-md-3'><div>"
-                        + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail'></div>"
-                        + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
-                        + "<span class='fa fa-upload'> Upload</button></div></div>"
-                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-8 col-md-8 text-justify pull-right'>"
+                    product_template += "<div class='col-lg-12 panel panel-default dashboard_graph' id = 'test-filter'>"
+                        + "<div class='col-lg-3'><div>"
+                        + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail  float-center'></div>"
+                        + "<div id='upload'><button class='btn btn-link fa fa-upload' style='padding-left: 45%' id='upload-" + value._id + "'> Upload</button></div></div>"
+                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-8 text-justify pull-right'>"
                         + "<h4>" + value.name + "</h4>"
                         + "<p>" + value.description + "</p>"
                         + "<p><span class='label label-default'><i id='product-category'>" + value.category + "</i></span></p>"
                         + "<b style='color: brown'>Rs. <i>" + value.price + "</i></b></div>"
-                        + "<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12 panel-footer'><div>"
+                        + "<div class='col-lg-12 panel-footer'><div>"
                         + "<button id='remove-product-" + value._id + "' class='btn btn-danger pull-right' data-toggle='modal' data-target='#myModal'>"
                         + "<span class='glyphicon glyphicon-trash'></span> Remove</button>"
                         + "<button id='edit-product-" + value._id + "' class='btn btn-success pull-right'>"
