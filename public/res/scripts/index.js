@@ -183,7 +183,7 @@ function getProducts() {
                         + "<div class='col-lg-3'><div>"
                         + "<img id='image-div-" + value._id + "' src=" + img_location + " class = 'img-thumbnail  float-center'></div>"
                         + "<div id='upload'><button class='btn btn-link fa fa-upload' style='padding-left: 45%' id='upload-" + value._id + "'> Upload</button></div></div>"
-                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-8 text-justify pull-right'>"
+                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-8 col-xs-12  pull-right text-justify'>"
                         + "<h4>" + value.name + "</h4>"
                         + "<p>" + value.description + "</p>"
                         + "<p><span class='label label-default'><i id='product-category'>" + value.category + "</i></span></p>"
