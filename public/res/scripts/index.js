@@ -171,7 +171,7 @@ function getProducts() {
                         + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail'></div>"
                         + "<div id='upload'><button class='btn btn-link' style='padding-left: 45%' id='upload-" + value._id + "'>"
                         + "<span class='fa fa-upload'> Upload</button></div></div>"
-                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-9 col-md-9 text-justify'>"
+                        + "<div id='" + value.category + "-" + value._id + "' class='col-lg-8 col-md-8 text-justify pull-right'>"
                         + "<h4>" + value.name + "</h4>"
                         + "<p>" + value.description + "</p>"
                         + "<p><span class='label label-default'><i id='product-category'>" + value.category + "</i></span></p>"
