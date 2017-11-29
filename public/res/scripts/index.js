@@ -45,7 +45,7 @@ $(document).ready(function () {
     function readURL(id, input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-            
+
             reader.onload = function (e) {
                 $('#' + id).attr('src', e.target.result);
             }
@@ -53,7 +53,7 @@ $(document).ready(function () {
             image_file = input.files[0];
         }
     }
-    
+
     $(document).on("click", "button[id^='upload-']", function () {
         upload_id = this.id.substr(7);
         uploadImage(upload_id, image_file);
@@ -62,14 +62,14 @@ $(document).ready(function () {
     var removeId;
     /* Function when remove button is clicked */
     $(document).on("click", "button[id^='remove-product-']", function () {
-        removeId = this.id.substr(15); 
+        removeId = this.id.substr(15);
     });
 
     $(document).on("click", "#confirm-delete", function () {
         removeProduct(removeId);
     });
 
-   
+
 
     var editId;
     /* Function when edit button is clicked */
@@ -121,46 +121,50 @@ $(document).ready(function () {
     });
 });
 
- /***
-    Write your code for fetching the list of product from the database
-    
-    Using AJAX call the webservice http://localhost:3000/products in GET method
-    It will return an Array of objects as follows
-    
-        {
-            [
-                {
-                    "_id" : "57b6fabb977a336f514e73ef",
-                    "price" : 200,
-                    "description" : "Great pictures make all the difference. That’s why there’s the new Moto G Plus, 4th Gen. It gives you a 16 MP camera with laser focus and a whole lot more, so you can say goodbye to blurry photos and missed shots. Instantly unlock your phone using your unique fingerprint as a passcode. Get up to 6 hours of power in just 15 minutes of charging, along with an all-day battery. And get the speed you need now and in the future with a powerful octa-core processor.",
-                    "category" : "Smartphones",
-                    "name" : "Moto G Plus, 4th Gen (Black, 32 GB)",
-                    "productImg" : {
-                    "fileName" : "57b6fabb977a336f514e73ef_Product.png",
-                    "filePath" : "./public/images/Product/57b6fabb977a336f514e73ef_Product.png",
-                    "fileType" : "png"
-                },
-                {
-                    //Next Product and so on
-                }
-            ]
-        }
+/***
+   Write your code for fetching the list of product from the database
+   
+   Using AJAX call the webservice products in GET method
+   It will return an Array of objects as follows
+   
+       {
+           [
+               {
+                   "_id" : "57b6fabb977a336f514e73ef",
+                   "price" : 200,
+                   "description" : "Great pictures make all the difference. That’s why there’s the new Moto G Plus, 4th Gen. It gives you a 16 MP camera with laser focus and a whole lot more, so you can say goodbye to blurry photos and missed shots. Instantly unlock your phone using your unique fingerprint as a passcode. Get up to 6 hours of power in just 15 minutes of charging, along with an all-day battery. And get the speed you need now and in the future with a powerful octa-core processor.",
+                   "category" : "Smartphones",
+                   "name" : "Moto G Plus, 4th Gen (Black, 32 GB)",
+                   "productImg" : {
+                   "fileName" : "57b6fabb977a336f514e73ef_Product.png",
+                   "filePath" : "./public/images/Product/57b6fabb977a336f514e73ef_Product.png",
+                   "fileType" : "png"
+               },
+               {
+                   //Next Product and so on
+               }
+           ]
+       }
 
-    Using jQuery
-    Iterate through this response array and dynamically create the products list
-    using JavaScript DOM and innerHTML.
-    ***/
+   Using jQuery
+   Iterate through this response array and dynamically create the products list
+   using JavaScript DOM and innerHTML.
+   ***/
 //Get List of Products from the database
 function getProducts() {
     $("#product-list").empty();
     $("#button-categories").empty();
     $('#clear-form').click();
+    $("#dropped-categories").empty();
+    $("#searchText").val('');
+
+    category_filter = [];
 
     $.ajax({
-        url: "http://localhost:3000/products",
-        type: 'GET',            
-    }).done(function(responseObj){
-         cat_array = [];
+        url: "products",
+        type: 'GET',
+    }).done(function (responseObj) {
+        cat_array = [];
         $.each(responseObj, function (i, item) {
             if (i == "data") {
                 data_object = item;
@@ -185,19 +189,18 @@ function getProducts() {
             }
         });
 
-
         $.each(jQuery.unique(cat_array), function (i, value) {
             button_categories += "<button id='drag-" + value + "' class='btn btn-success draggable' draggable='true' ondragstart='drag(event)' value = " + value + ">" + value + "</button>";
         });
 
         document.getElementById("product-list").innerHTML = product_template;
         document.getElementById("button-categories").innerHTML = button_categories;
-        
-product_template = "";
-button_categories = "";    
-    });    
 
-   
+        product_template = "";
+        button_categories = "";
+    });
+
+
 }
 
 //Initial call to populate the Products list the first time the page loads
@@ -214,7 +217,7 @@ getProducts();
  Popup an alert message to confirm the delete
  if confirmed
  Call the API
-    http://localhost:3000/product/<id>
+    product/<id>
     with method = DELETE
     replace <id> with the _id in the product object
 
@@ -226,7 +229,7 @@ getProducts();
  Using jQuery Validate the form
  All fields are mandatory.
  Call the API
-    http://localhost:3000/product
+    product
     with method=POST
     For this call data should be in following structure
     {
@@ -251,7 +254,7 @@ getProducts();
  Using jQuery Validate the form
  All fields are mandatory.
  Call the API
-    http://localhost:3000/product/:id    
+    product/:id    
     with method=PUT
     replace <id> with the _id in the product object
     For this call data should be in following structure
@@ -283,8 +286,8 @@ function validateForm() {
     } else {
         $('#alert-banner-form').empty();
         $("#alert-banner-form").html('<div class="alert alert-danger alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please fill all fields</div>');
-        
-        $('#alert-banner-form').slideUp(3000, function(){
+
+        $('#alert-banner-form').slideUp(1000, function () {
             $(this).empty().show();
         });
 
@@ -305,7 +308,7 @@ function getInputData() {
 function removeProduct(id) {
     console.log("Remove " + id);
     $.ajax({
-        url: "http://localhost:3000/product/" + id,
+        url: "product/" + id,
         type: 'DELETE',
         success: function (data, status, jqXmlHttpRequest) {
             console.log("Status: ", status);
@@ -313,8 +316,8 @@ function removeProduct(id) {
         complete: function () {
             $('#alert-banner').empty();
             $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
-            
-            $('#alert-banner').slideUp(3000, function(){
+
+            $('#alert-banner').slideUp(1000, function () {
                 $(this).empty().show();
             });
 
@@ -327,7 +330,7 @@ function removeProduct(id) {
 /*Update Product*/
 function editProduct(id) {
     $.ajax({
-        url: "http://localhost:3000/product/" + id,
+        url: "product/" + id,
         type: 'PUT',
         dataType: 'json',
         data: getInputData(),
@@ -338,10 +341,10 @@ function editProduct(id) {
             $('#alert-banner-form').empty();
             $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Updated Successfully</div>');
 
-            $('#alert-banner-form').slideUp(3000, function(){
+            $('#alert-banner-form').slideUp(1000, function () {
                 $(this).empty().show();
             });
-           getProducts();
+            getProducts();
         }
     });
     //write your code here to update the product and call when update button clicked
@@ -351,7 +354,7 @@ function editProduct(id) {
 function createProduct(newData) {
 
     $.ajax({
-        url: "http://localhost:3000/product",
+        url: "product",
         type: 'POST',
         data: newData,
         success: function (data, status, jqXmlHttpRequest) {
@@ -360,8 +363,8 @@ function createProduct(newData) {
         complete: function () {
             $("#alert-banner-form").empty();
             $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Product Successfully Saved</div>');
-            
-            $('#alert-banner-form').slideUp(3000, function(){
+
+            $('#alert-banner-form').slideUp(1000, function () {
                 $(this).empty().show();
             });
 
@@ -407,6 +410,7 @@ function drag(ev) {
 
 function drop(ev) {
     ev.preventDefault();
+    $("#searchText").val('');
     var data = ev.dataTransfer.getData("text");
     if (initial_drop_id != data) {
         initial_drop_id = data;
@@ -436,23 +440,24 @@ function drop(ev) {
 
 }
 
-     /*
-            //Write your code here for the Free Text Search
-            When the user types text in the search input box. 
-            As he types the text filter the products list
-            Matching the following fields
-                - Name
-                - Description
-                - Category
-                - Price
-            
-            The search string maybe present in any one of the fields
-            anywhere in the content
+/*
+       //Write your code here for the Free Text Search
+       When the user types text in the search input box. 
+       As he types the text filter the products list
+       Matching the following fields
+           - Name
+           - Description
+           - Category
+           - Price
+       
+       The search string maybe present in any one of the fields
+       anywhere in the content
 
-         */
+    */
 //Code block for Free Text Search
 $(document).ready(function () {
     $("#searchText").keyup(function () {
+        $("i[id^='close-']").click();
         var searchText = $(this).val().toUpperCase();
         $("#product-list #test-filter").each(function (key, productListDiv) {
 
@@ -501,7 +506,7 @@ function categoryFilter() {
     Using AJAX
     Update the product image using the following api call
         Call the api
-            http://localhost:3000/product/id/ProductImg
+            product/id/ProductImg
             method=PUT
             the data for this call should be as FormData
             eg:
@@ -517,7 +522,7 @@ function uploadImage(id, file) {
     formData.append('file', file);
     console.log(formData.get);
     $.ajax({
-        url: "http://localhost:3000/product/" + id + "/ProductImg",
+        url: "product/" + id + "/ProductImg",
         type: 'PUT',
         data: formData,
         contentType: false,
@@ -525,8 +530,8 @@ function uploadImage(id, file) {
         success: function (data, status, jqXmlHttpRequest) {
             $('#alert-banner').empty();
             $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Image Uploaded Successfully</div>');
-            
-            $('#alert-banner').slideUp(3000, function(){
+
+            $('#alert-banner').slideUp(1000, function () {
                 $(this).empty().show();
             });
 
