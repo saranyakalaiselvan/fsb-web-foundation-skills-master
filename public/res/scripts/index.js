@@ -395,20 +395,21 @@ function drop(ev) {
         var categoryName = $('#' + data).val();
         category_filter.push(categoryName);
 
-        var test = document.createElement('button');
-        test.type = "button";
-        test.value = categoryName;
-        test.className = "btn btn-success";
-        test.innerHTML = categoryName;
-        test.id = "drop-" + categoryName;
+        var button_element = document.createElement('button');
+        button_element.type = "button";
+        button_element.value = categoryName;
+        button_element.className = "btn btn-success";
+        button_element.innerHTML = categoryName;
+        button_element.id = "drop-" + categoryName;
 
         var spanElement = document.createElement('i');
         spanElement.className = "fa fa-times-circle";
         spanElement.id = "close-" + categoryName;
         spanElement.style.color = "#a50b0b";
         spanElement.setAttribute("aria-hidden", "true");
+        spanElement.appendChild(document.createTextNode("     "))
 
-        ev.target.appendChild(test);
+        ev.target.appendChild(button_element);
         ev.target.appendChild(spanElement);
 
         categoryFilter();
