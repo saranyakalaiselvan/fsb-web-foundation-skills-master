@@ -283,7 +283,11 @@ function validateForm() {
         return true;
     } else {
         $("#alert-banner-form").html('<div class="alert alert-danger alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please fill all fields</div>');
-        setTimeout(function () { $("#alert-banner-form").slideUp(500); }, 3000);
+        
+        $('#alert-banner-form').slideUp(3000, function(){
+            $(this).empty().show();
+        });
+
         return false;
     }
 }
@@ -308,7 +312,11 @@ function removeProduct(id) {
         },
         complete: function () {
             $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
-            setTimeout(function () { $("#alert-banner").slideUp(500); }, 3000);
+            
+            $('#alert-banner').slideUp(3000, function(){
+                $(this).empty().show();
+            });
+
             getProducts();
         }
     });
@@ -327,8 +335,11 @@ function editProduct(id) {
         },
         complete: function (data) {
             $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Updated Successfully</div>');
-            setTimeout(function () { $("#alert-banner-form").slideUp(500); }, 3000);
-            getProducts();
+
+            $('#alert-banner-form').slideUp(3000, function(){
+                $(this).empty().show();
+            });
+           getProducts();
         }
     });
     //write your code here to update the product and call when update button clicked
@@ -345,8 +356,13 @@ function createProduct(newData) {
             console.log("Status: ", status);
         },
         complete: function () {
+            $("#alert-banner-form").empty();
             $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Product Successfully Saved</div>');
-            setTimeout(function () { $("#alert-banner-form").slideUp(500); }, 3000);
+            
+            $('#alert-banner-form').slideUp(3000, function(){
+                $(this).empty().show();
+            });
+
             getProducts();
         }
     });
@@ -506,7 +522,11 @@ function uploadImage(id, file) {
         processData: false,
         success: function (data, status, jqXmlHttpRequest) {
             $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Image Uploaded Successfully</div>');
-            setTimeout(function () { $("#alert-banner").slideUp(500); }, 3000);
+            
+            $('#alert-banner').slideUp(3000, function(){
+                $(this).empty().show();
+            });
+
             getProducts();
         }
     });
