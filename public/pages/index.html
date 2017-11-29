@@ -190,8 +190,8 @@
                 <!--Show All Categories End -->
 
                 <!--Shows All Product -->
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                <div>
+                    <div class="panel">
                         <div class="dashboard_graph">
                             <div class="row x_title">
                                 <div class="col-md-6">
@@ -207,17 +207,16 @@
                             </div>
 
                             <!-- This is the column for Edit and delete Panel #DO NOT TOUCH -->
-                            <div class="col col-lg-3">
+                            <div class="col-lg-3">
                                 <div class="panel panel-default">
-                                    <div class="col-md-12">
-                                        <h4 class="row x_title" id="heading-form">Add Product</h4>
+                                    <div class="panel-header x_title">
+                                        <h4 id="heading-form">Add Product</h4>
                                         <div id="alert-banner-form"></div>
                                     </div>
-                                    <div class="panel-body">
-                                        <form id="product-form">
+                                    <div class="panel-body x_title">
+                                        <form id="product-form" class="form-horizontal" role="form">
                                             <div class="form-group">
-                                                <strong>Name *</strong>
-                                                <br>
+                                                <label for="add-name">Name *</label>
                                                 <input class="form-control input-sm" type="text" id="add-name" />
                                             </div>
                                             <div class="form-group">
@@ -237,7 +236,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="panel-header" align="center">
+                                    <div class="panel panel-header" align="center">
                                         <button id="clear-form" name="cancel" class="btn btn-danger">Cancel</button>
                                         <button id="save-form" name="success" class="btn btn-success">Submit</button>
                                     </div>
@@ -282,6 +281,8 @@
 
         <footer>
             <div class="pull-right">
+                Done by Vignesh Babu B R B (447482)
+                <a href="mailto:vigneshbabu.brb@cognizant.com?subject=Capstone1%20FeedBack" class="btn-link">Click Here to provide feedback</a>
             </div>
             <div class="clearfix"></div>
         </footer>
