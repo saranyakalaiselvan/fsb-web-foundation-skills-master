@@ -172,7 +172,6 @@ function getProducts() {
                     //Right Code to update in the Product Template
 
                     var img_location;
-                        img_location = "";
 
                     if (typeof value.productImg == 'undefined') {
                     img_location = "\images\Product\5a1e4043f61eea1878914508";
@@ -182,7 +181,7 @@ function getProducts() {
 
                     product_template += "<div class='col-lg-12 panel panel-default dashboard_graph' id = 'test-filter'>"
                         + "<div class='col-lg-3'><div>"
-                        + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail  float-center'></div>"
+                        + "<img id='image-div-" + value._id + "' src=" + img_location + " class = 'img-thumbnail  float-center'></div>"
                         + "<div id='upload'><button class='btn btn-link fa fa-upload' style='padding-left: 45%' id='upload-" + value._id + "'> Upload</button></div></div>"
                         + "<div id='" + value.category + "-" + value._id + "' class='col-lg-8 text-justify pull-right'>"
                         + "<h4>" + value.name + "</h4>"
