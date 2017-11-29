@@ -170,6 +170,16 @@ function getProducts() {
                 data_object = item;
                 $.each(item, function (key, value) {
                     //Right Code to update in the Product Template
+
+                    var img_location;
+                        img_location = "";
+
+                    if (typeof value.productImg == 'undefined') {
+                    img_location = "\images\Product\5a1e4043f61eea1878914508";
+                    } else {
+                        img_location = value.productImg.filePath.substr(9);
+                    }
+
                     product_template += "<div class='col-lg-12 panel panel-default dashboard_graph' id = 'test-filter'>"
                         + "<div class='col-lg-3'><div>"
                         + "<img id='image-div-" + value._id + "' src=" + value.productImg.filePath.substr(9) + " class = 'img-thumbnail  float-center'></div>"
