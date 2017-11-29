@@ -281,6 +281,7 @@ function validateForm() {
     if (input_name != "" && input_category != "" && input_description != "" && input_price != "") {
         return true;
     } else {
+        $('#alert-banner-form').empty();
         $("#alert-banner-form").html('<div class="alert alert-danger alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Please fill all fields</div>');
         
         $('#alert-banner-form').slideUp(3000, function(){
@@ -310,6 +311,7 @@ function removeProduct(id) {
             console.log("Status: ", status);
         },
         complete: function () {
+            $('#alert-banner').empty();
             $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Deleted Successfully</div>');
             
             $('#alert-banner').slideUp(3000, function(){
@@ -333,6 +335,7 @@ function editProduct(id) {
             console.log("Status: ", status);
         },
         complete: function (data) {
+            $('#alert-banner-form').empty();
             $("#alert-banner-form").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Updated Successfully</div>');
 
             $('#alert-banner-form').slideUp(3000, function(){
@@ -520,6 +523,7 @@ function uploadImage(id, file) {
         contentType: false,
         processData: false,
         success: function (data, status, jqXmlHttpRequest) {
+            $('#alert-banner').empty();
             $("#alert-banner").html('<div class="alert alert-success alert-dismissable fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Image Uploaded Successfully</div>');
             
             $('#alert-banner').slideUp(3000, function(){
